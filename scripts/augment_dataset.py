@@ -1,5 +1,3 @@
-"""Augment diabetes dataset with cholesterol and physical activity level."""
-
 from pathlib import Path
 
 import numpy as np
@@ -8,27 +6,20 @@ import pandas as pd
 BASE_DIR = Path(__file__).resolve().parents[1]
 DATA_DIR = BASE_DIR / "data"
 
-# Set random seed for reproducibility
 np.random.seed(42)
 
 
 def augment_dataset():
-    """Load diabetes dataset and add cholesterol and physical activity level."""
     df = pd.read_csv(DATA_DIR / "Diabetes_Final_Data_V2.csv")
 
-    # Generate cholesterol based on age, BMI, and glucose
-    # Cholesterol typically ranges 100-400 mg/dL
     base_cholesterol = 150 + (df["age"] * 0.5) + (df["bmi"] * 2) + (df["glucose"] * 10)
     cholesterol = base_cholesterol + np.random.normal(0, 15, len(df))
     df["cholesterol"] = np.clip(cholesterol, 100, 450).round(1)
 
-    # Generate physical activity level (0-7 score, where 7 is most active)
-    # Inverse relationship with BMI and age
     activity_base = 5 - ((df["bmi"] - 20) * 0.15) - ((df["age"] - 40) * 0.02)
     activity_level = activity_base + np.random.normal(0, 0.5, len(df))
     df["physical_activity_level"] = np.clip(activity_level, 0, 7).round(1)
 
-    # Save augmented dataset
     output_path = DATA_DIR / "Diabetes_Final_Data_Augmented.csv"
     df.to_csv(output_path, index=False)
     print(f"Augmented dataset saved to {output_path}")

@@ -1,5 +1,3 @@
-"""Model evaluation utilities."""
-
 from __future__ import annotations
 
 import json
@@ -20,7 +18,6 @@ from sklearn.metrics import (
 
 
 def evaluate_models(models: Dict[str, object], x_test, y_test) -> Tuple[pd.DataFrame, Dict[str, dict], str]:
-    """Evaluate models and return a metrics DataFrame, detailed metrics map, and best model name."""
     rows = []
     details: Dict[str, dict] = {}
 
@@ -67,7 +64,6 @@ def save_evaluation_artifacts(
     details: Dict[str, dict],
     best_model_name: str,
 ) -> None:
-    """Persist evaluation metrics and ROC data for app use."""
     output_dir.mkdir(parents=True, exist_ok=True)
 
     metrics_path = output_dir / "metrics.csv"

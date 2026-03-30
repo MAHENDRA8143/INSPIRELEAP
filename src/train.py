@@ -1,5 +1,3 @@
-"""End-to-end training script for diabetes prediction."""
-
 from __future__ import annotations
 
 import argparse
@@ -18,7 +16,6 @@ from src.preprocessing import balance_training_data, handle_missing_values, scal
 
 
 def get_feature_importance_dataframe(model, feature_names):
-    """Build a feature-importance DataFrame for model interpretation."""
     if hasattr(model, "feature_importances_"):
         values = model.feature_importances_
     elif hasattr(model, "coef_"):
@@ -43,7 +40,6 @@ def save_training_artifacts(
     feature_ranking_df: pd.DataFrame,
     feature_importance_df: pd.DataFrame,
 ):
-    """Persist model and metadata required by the app."""
     output_dir.mkdir(parents=True, exist_ok=True)
 
     joblib.dump(model, output_dir / "best_model.joblib")
@@ -64,13 +60,11 @@ def save_training_artifacts(
 
 
 def run_training_pipeline(csv_path: Path | None = None) -> None:
-    """Run full training, evaluation, and artifact generation pipeline."""
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
     DATA_DIR.mkdir(parents=True, exist_ok=True)
 
     df = load_diabetes_dataset(csv_path=csv_path)
 
-    # Store a local copy so users can inspect the training dataset.
     dataset_export = DATA_DIR / "diabetes_dataset.csv"
     if not dataset_export.exists():
         df.to_csv(dataset_export, index=False)
@@ -118,7 +112,6 @@ def run_training_pipeline(csv_path: Path | None = None) -> None:
 
 
 def parse_args():
-    """Parse optional command-line arguments."""
     parser = argparse.ArgumentParser(description="Train diabetes prediction models.")
     parser.add_argument(
         "--csv-path",

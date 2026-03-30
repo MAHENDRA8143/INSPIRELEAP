@@ -1,5 +1,3 @@
-"""Streamlit web app for diabetes risk prediction."""
-
 from __future__ import annotations
 
 import json
@@ -19,7 +17,6 @@ MODELS_DIR = BASE_DIR / "models"
 
 
 def load_artifacts():
-    """Load trained model and metadata from disk."""
     model_path = MODELS_DIR / "best_model.joblib"
     scaler_path = MODELS_DIR / "scaler.joblib"
     imputer_path = MODELS_DIR / "imputer.joblib"
@@ -55,7 +52,6 @@ def load_artifacts():
 
 
 def inject_custom_style():
-    """Apply custom CSS to improve app styling."""
     st.markdown(
         """
         <style>
@@ -89,7 +85,6 @@ def inject_custom_style():
 
 
 def get_default_inputs():
-    """Default values for the prediction form."""
     return {
         "age": 50,
         "bmi": 28.0,
@@ -101,7 +96,6 @@ def get_default_inputs():
 
 
 def initialize_state():
-    """Initialize session state values for form fields."""
     defaults = get_default_inputs()
     for key, value in defaults.items():
         if key not in st.session_state:
@@ -109,14 +103,12 @@ def initialize_state():
 
 
 def reset_inputs_callback():
-    """Reset form values to defaults via callback."""
     defaults = get_default_inputs()
     for key, value in defaults.items():
         st.session_state[key] = value
 
 
 def validate_input(values: dict) -> tuple[bool, str]:
-    """Validate user inputs before prediction."""
     if not (1 <= values["age"] <= 120):
         return False, "Age must be between 1 and 120."
     if not (10.0 <= values["bmi"] <= 80.0):
@@ -133,7 +125,6 @@ def validate_input(values: dict) -> tuple[bool, str]:
 
 
 def get_risk_level(probability: float) -> str:
-    """Map probability to human-readable risk levels."""
     if probability < 0.35:
         return "Low"
     if probability < 0.7:
@@ -142,7 +133,6 @@ def get_risk_level(probability: float) -> str:
 
 
 def make_prediction(model, scaler, imputer, feature_order, values: dict):
-    """Generate prediction label and probability from model."""
     input_df = pd.DataFrame([values])[feature_order]
     input_imputed = imputer.transform(input_df)
     input_scaled = scaler.transform(input_imputed)
@@ -154,7 +144,6 @@ def make_prediction(model, scaler, imputer, feature_order, values: dict):
 
 
 def plot_feature_importance(importance_df: pd.DataFrame):
-    """Render horizontal feature importance bar chart."""
     fig, ax = plt.subplots(figsize=(7, 4))
     sorted_df = importance_df.sort_values("importance", ascending=True)
     ax.barh(sorted_df["feature"], sorted_df["importance"], color="#0f766e")
@@ -164,7 +153,6 @@ def plot_feature_importance(importance_df: pd.DataFrame):
 
 
 def plot_roc_curve(roc_data):
-    """Render ROC curve for the best model."""
     fpr = roc_data["fpr"]
     tpr = roc_data["tpr"]
 
@@ -179,7 +167,6 @@ def plot_roc_curve(roc_data):
 
 
 def plot_confusion_matrix(metrics_json_data):
-    """Render confusion matrix for the best model."""
     if "details" not in metrics_json_data:
         return
     
@@ -207,7 +194,6 @@ def plot_confusion_matrix(metrics_json_data):
 
 
 def main():
-    """Main Streamlit app."""
     st.set_page_config(page_title="AI Diabetes Prediction", page_icon="🩺", layout="wide")
     inject_custom_style()
     initialize_state()

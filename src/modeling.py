@@ -1,5 +1,3 @@
-"""Model training and hyperparameter tuning."""
-
 from __future__ import annotations
 
 from typing import Dict, Tuple
@@ -13,7 +11,6 @@ from .config import RANDOM_STATE
 
 
 def train_and_tune_models(x_train, y_train) -> Tuple[Dict[str, object], Dict[str, dict]]:
-    """Train Logistic Regression, Random Forest, and XGBoost with tuning."""
     trained_models: Dict[str, object] = {}
     best_params: Dict[str, dict] = {}
 

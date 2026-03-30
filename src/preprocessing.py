@@ -1,5 +1,3 @@
-"""Data preprocessing utilities."""
-
 from __future__ import annotations
 
 from typing import Tuple
@@ -19,7 +17,6 @@ def train_test_data_split(
     test_size: float = TEST_SIZE,
     random_state: int = RANDOM_STATE,
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
-    """Split data into train and test sets with stratification."""
     return train_test_split(
         x_data,
         y_data,
@@ -33,7 +30,6 @@ def handle_missing_values(
     x_train: pd.DataFrame,
     x_test: pd.DataFrame,
 ) -> Tuple[pd.DataFrame, pd.DataFrame, SimpleImputer]:
-    """Impute missing numerical values using median."""
     imputer = SimpleImputer(strategy="median")
     x_train_imputed = pd.DataFrame(imputer.fit_transform(x_train), columns=x_train.columns, index=x_train.index)
     x_test_imputed = pd.DataFrame(imputer.transform(x_test), columns=x_test.columns, index=x_test.index)
@@ -44,7 +40,6 @@ def scale_features(
     x_train: pd.DataFrame,
     x_test: pd.DataFrame,
 ) -> Tuple[pd.DataFrame, pd.DataFrame, StandardScaler]:
-    """Standardize numerical features using StandardScaler."""
     scaler = StandardScaler()
     x_train_scaled = pd.DataFrame(scaler.fit_transform(x_train), columns=x_train.columns, index=x_train.index)
     x_test_scaled = pd.DataFrame(scaler.transform(x_test), columns=x_test.columns, index=x_test.index)
@@ -56,10 +51,6 @@ def balance_training_data(
     y_train: pd.Series,
     random_state: int = RANDOM_STATE,
 ) -> Tuple[pd.DataFrame, pd.Series, bool]:
-    """Apply SMOTE when the dataset is imbalanced.
-
-    Imbalance criterion: minority/majority ratio below 0.5.
-    """
     class_counts = y_train.value_counts()
     majority = class_counts.max()
     minority = class_counts.min()
