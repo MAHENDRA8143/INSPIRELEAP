@@ -6,7 +6,7 @@ from typing import Tuple
 import pandas as pd
 from sklearn.datasets import load_diabetes
 
-from .config import TARGET_COLUMN
+from .config import DATA_DIR, TARGET_COLUMN
 
 
 def load_diabetes_dataset(csv_path: Path | None = None) -> pd.DataFrame:
@@ -17,6 +17,14 @@ def load_diabetes_dataset(csv_path: Path | None = None) -> pd.DataFrame:
             df = df.drop(columns=["diabetic"])
         elif TARGET_COLUMN not in df.columns:
             raise ValueError(f"Target column '{TARGET_COLUMN}' not found in dataset.")
+        return df
+
+    augmented_path = DATA_DIR / "Diabetes_Final_Data_Augmented.csv"
+    if augmented_path.exists():
+        df = pd.read_csv(augmented_path)
+        if "diabetic" in df.columns:
+            df[TARGET_COLUMN] = (df["diabetic"].str.lower() == "yes").astype(int)
+            df = df.drop(columns=["diabetic"])
         return df
 
     dataset = load_diabetes(as_frame=True)
