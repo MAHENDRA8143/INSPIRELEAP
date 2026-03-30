@@ -1,0 +1,33 @@
+{
+  "best_model_name": "Logistic Regression",
+  "best_params": {
+    "Logistic Regression": {
+      "C": 1,
+      "penalty": "l2",
+      "solver": "lbfgs"
+    },
+    "Random Forest": {
+      "n_estimators": 150,
+      "min_samples_split": 5,
+      "min_samples_leaf": 2,
+      "max_depth": 10,
+      "class_weight": null
+    },
+    "XGBoost": {
+      "subsample": 1.0,
+      "n_estimators": 150,
+      "max_depth": 5,
+      "learning_rate": 0.2,
+      "colsample_bytree": 0.85
+    }
+  },
+  "selected_features": [
+    "age",
+    "bmi",
+    "glucose",
+    "cholesterol",
+    "systolic_bp",
+    "physical_activity_level"
+  ],
+  "used_smote": true
+}
