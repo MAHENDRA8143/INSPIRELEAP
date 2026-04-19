@@ -2,6 +2,10 @@
 
 A complete, modular Python project to predict diabetes risk using machine learning and a Streamlit web interface.
 
+## Full Project Documentation
+
+For complete documentation covering dataset description, preprocessing techniques, model training results, and evaluation metrics, see `PROJECT_DOCUMENTATION.md`.
+
 ## Project Structure
 
 ```text
